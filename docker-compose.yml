@@ -1,0 +1,35 @@
+version: "3.9"
+
+services:
+  postgres:
+    image: postgres:16
+    container_name: strapi-postgres
+    restart: unless-stopped
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: strapi
+      POSTGRES_USER: strapi
+      POSTGRES_PASSWORD: strapi123
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  nocodb:
+    image: nocodb/nocodb:latest
+    container_name: nocodb
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    environment:
+      # NocoDB kendi metadata DB'si (SQLite)
+      NC_DB: "sqlite3:///usr/app/data/nocodb.db"
+      # PostgreSQL bağlantısı
+      NC_DB_URL: "postgres://strapi:strapi123@postgres:5432/strapi"
+    depends_on:
+      - postgres
+    volumes:
+      - nocodb_data:/usr/app/data
+
+volumes:
+  postgres_data:
+  nocodb_data:
