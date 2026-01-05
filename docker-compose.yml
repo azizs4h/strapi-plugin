@@ -21,10 +21,10 @@ services:
     ports:
       - "8080:8080"
     environment:
-      # NocoDB kendi metadata DB'si (SQLite)
-      NC_DB: "sqlite3:///usr/app/data/nocodb.db"
-      # PostgreSQL bağlantısı
-      NC_DB_URL: "postgres://strapi:strapi123@postgres:5432/strapi"
+      # ✅ NocoDB Meta database - PostgreSQL (correct format)
+      NC_DB: "pg://strapi-postgres:5432?u=strapi&p=strapi123&d=nocodb"
+      NC_DB_URL: "postgres://strapi:strapi123@strapi-postgres:5432/strapi"
+      NC_AUTH_JWT_SECRET: "your_secure_jwt_secret_key_here_change_this"
     depends_on:
       - postgres
     volumes:
