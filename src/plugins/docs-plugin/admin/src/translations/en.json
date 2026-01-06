@@ -1,0 +1,4 @@
+{
+  "docs-plugin.plugin.name": "Welcome to Docs Plugin",
+  "docs-plugin.plugin.description": "A Strapi plugin to manage and display documentation within the admin panel."
+}
