@@ -7,11 +7,17 @@ export default defineNuxtConfig({
     '@nuxt/content',
     'nuxt-og-image',
     'nuxt-llms',
-    '@nuxtjs/mcp-toolkit'
+    '@nuxtjs/mcp-toolkit',
   ],
 
+  ssr: false,
+
   devtools: {
-    enabled: true
+    enabled: true,
+  },
+
+  app: {
+    baseURL: '/api/docs-plugin/docs/',
   },
 
   css: ['~/assets/css/main.css'],
@@ -20,39 +26,37 @@ export default defineNuxtConfig({
     build: {
       markdown: {
         toc: {
-          searchDepth: 1
-        }
-      }
-    }
+          searchDepth: 1,
+        },
+      },
+    },
   },
 
   experimental: {
-    asyncContext: true
+    asyncContext: true,
   },
 
   compatibilityDate: '2024-07-11',
 
   nitro: {
     prerender: {
-      routes: [
-        '/'
-      ],
+      routes: ['/'],
       crawlLinks: true,
-      autoSubfolderIndex: false
-    }
+      autoSubfolderIndex: false,
+    },
   },
 
   eslint: {
     config: {
       stylistic: {
         commaDangle: 'never',
-        braceStyle: '1tbs'
-      }
-    }
+        braceStyle: '1tbs',
+      },
+    },
   },
 
   icon: {
-    provider: 'iconify'
+    provider: 'iconify',
   },
 
   llms: {
@@ -61,27 +65,23 @@ export default defineNuxtConfig({
     description: 'A template for building documentation with Nuxt UI and Nuxt Content.',
     full: {
       title: 'Nuxt Docs Template - Full Documentation',
-      description: 'This is the full documentation for the Nuxt Docs Template.'
+      description: 'This is the full documentation for the Nuxt Docs Template.',
     },
     sections: [
       {
         title: 'Getting Started',
         contentCollection: 'docs',
-        contentFilters: [
-          { field: 'path', operator: 'LIKE', value: '/getting-started%' }
-        ]
+        contentFilters: [{ field: 'path', operator: 'LIKE', value: '/getting-started%' }],
       },
       {
         title: 'Essentials',
         contentCollection: 'docs',
-        contentFilters: [
-          { field: 'path', operator: 'LIKE', value: '/essentials%' }
-        ]
-      }
-    ]
+        contentFilters: [{ field: 'path', operator: 'LIKE', value: '/essentials%' }],
+      },
+    ],
   },
 
   mcp: {
-    name: 'Docs template'
-  }
-})
+    name: 'Docs template',
+  },
+});

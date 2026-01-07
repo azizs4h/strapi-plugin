@@ -18,16 +18,11 @@ const HomePage = () => {
           </Typography>
         </Box>
       </Box>
-      <Box
-        margin={20}
-        style={{
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          backgroundColor: '#ff0000',
-          borderRadius: '8px',
-        }}
-      ></Box>
+      <iframe
+        src="/docs/index.html"
+        style={{ width: '100%', height: 'calc(100vh - 56px)', border: 'none' }}
+        title="Documentation"
+      />
     </Main>
   );
 };
