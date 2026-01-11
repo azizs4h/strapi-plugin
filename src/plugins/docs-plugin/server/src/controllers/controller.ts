@@ -14,6 +14,11 @@ const controller = ({ strapi }: { strapi: Core.Strapi }) => ({
   },
 
   serve(ctx) {
+    console.log('=== DOCS SERVE CALLED ===');
+    console.log('ctx.params:', ctx.params);
+    console.log('ctx.path:', ctx.path);
+    console.log('ctx.url:', ctx.url);
+
     strapi.log.info('Serving docs for path:', ctx.params);
     // Base directory of Nuxt SSG output
     const baseDir = resolve(
@@ -21,22 +26,37 @@ const controller = ({ strapi }: { strapi: Core.Strapi }) => ({
       'src',
       'plugins',
       'docs-plugin',
-      'nuxt-docs',
+      'nuxt',
       '.output',
       'public'
     );
 
+    console.log('baseDir:', baseDir);
+
     // Capture the rest of the path from /docs/(.*)
-    const rest = ctx.params?.[0] || 'index.html';
+    let rest = ctx.params?.[0] || 'index.html';
+
+    // Remove the api/docs-plugin/docs prefix if it exists
+    rest = rest.replace(/^api\/docs-plugin\/docs\/?/, '');
+
+    // If empty, default to index.html
+    if (!rest || rest === '') {
+      rest = 'index.html';
+    }
+
+    console.log('rest:', rest);
     // Prevent directory traversal
     const clean = normalize(rest).replace(/^\.\/+/, '');
     const filePath = join(baseDir, clean);
+    console.log('filePath:', filePath);
 
     // If path is a directory, serve its index.html
     let finalPath = filePath;
     if (!finalPath.endsWith('.html') && !finalPath.includes('.')) {
       finalPath = join(finalPath, 'index.html');
     }
+    console.log('finalPath:', finalPath);
+    console.log('exists:', existsSync(finalPath));
 
     if (!existsSync(finalPath)) {
       ctx.status = 404;
@@ -46,6 +66,10 @@ const controller = ({ strapi }: { strapi: Core.Strapi }) => ({
 
     const type = mime.lookup(finalPath) || 'application/octet-stream';
     ctx.type = type as string;
+
+    // Disable CSP for docs route - it's static content behind authentication
+    ctx.remove('Content-Security-Policy');
+
     ctx.body = readFileSync(finalPath);
   },
 });

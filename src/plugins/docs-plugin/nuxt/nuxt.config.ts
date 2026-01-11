@@ -5,7 +5,7 @@ export default defineNuxtConfig({
     '@nuxt/image',
     '@nuxt/ui',
     '@nuxt/content',
-    'nuxt-og-image',
+    // 'nuxt-og-image', // Disabled for static generation
     'nuxt-llms',
     '@nuxtjs/mcp-toolkit',
   ],
